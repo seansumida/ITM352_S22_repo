@@ -1,0 +1,37 @@
+body{
+    font-family: "Open Sans", sans-serif;
+    color: darkblue;
+    background-color: ivory;
+    margin:10px 50px 10px 50px;
+
+} 
+h1, h2{
+    font-family: "Oswald", sans-serif;
+}
+img{
+    float: left;
+    margin-right: 10px;
+}
+.browser{
+    width: 100%;
+}
+.ie{
+    float: left;
+    width: 33%;
+}
+.ff{
+    float: left;
+    width: 33%;
+}
+.chrome{
+    float: left;
+    width: 33%;
+}
+
+ul{
+    list-style: none;
+}
+li{
+    display: inline;
+    margin-left: 50px;
+}
