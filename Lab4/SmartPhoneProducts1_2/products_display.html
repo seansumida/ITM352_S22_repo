@@ -2,17 +2,19 @@
 <html>
     <head>
         <script>
-            var store_name = "Sean Sumida's Used Smart Phone Store";
+            var store_name = "Sean Sumida";
             var hits = 1;
-            var spins = 0;
-            document.write(store_name);
+            var spins = 2;
+            
         </script>
         <title>Smartphone Products</title>
         <link rel="stylesheet" href="products-style.css">
     </head>
-    <body>
+    <body onload="
+    hits_span.innerHTML = hits;
+            spins_span.innerHtml = spins;">
         <header>
-        <h1>Used Smart Phone Store</h1>
+        <h1><script>document.write(store_name);</script>'s Used Smart Phone Store</h1>
         <p style="text-align: center; font-weight: bold; color: black;">
             Hits:<span id="hits_span">0</span>
             Spins:<span id="spins_span">0</span>
@@ -48,4 +50,13 @@
         </main></div>
         <h1>Your One Stop Phone Shop</h1>
     </body>
+    <footer>
+        <script>
+            document.write(store_name);
+            
+        </script>
+    </footer>
 </html>
+<script>
+    
+</script>
