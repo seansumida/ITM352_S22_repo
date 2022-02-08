@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Smartphone Products</title>
+        <link rel="stylesheet" href="products-style.css">
+        <head>
+            <script>
+                var hits = 0;
+                var spins = 0;
+                var first_name = "Sean";
+            var last_name = "Sumida";
+            </script>
+        </head>
+    </head>
+    <body>
+        <h1>Used Smart Phone Store</h1>
+        <p style="color: black;">
+            Hits:<span id="hits_span">0</span>
+            Spins:<span id="spins_span">0</span>
+        </p>
+        <div id ="container"><main>
+        <section class="item" 
+        onmouseover="
+            className='item rotate';
+            spins_span.innerHTML = spins += 1;" 
+        onclick="
+        this.className='item';
+        hits_span.innerHTML = hits += 2;
+        ">
+            <h2>HTC</h2>
+            <p>&dollar;40.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
+        </section>
+        <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>Apple</h2>
+            <p>&dollar;75.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
+        </section>
+        <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>Nokia</h2>
+            <p>&dollar;35.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
+        </section>
+        <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>Samsung</h2>
+            <p>&dollar;45.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
+        </section>
+        <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>Blackberry</h2>
+            <p>&dollar;10.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
+        </section>
+        </main></div>
+        <h1>Your One Stop Phone Shop</h1>
+    </body>
+    <footer>
+        <script>
+            var date = new Date();
+            var hours = (date.getHours());
+            var minutes = (date.getMinutes());
+            var am_pm = (hours < 12) ? 'AM' : 'PM';
+            document.write(`
+        <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+            <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + "." + last_name[0]}.'s</h1></th></tr>
+            <tr><td>1.</td><td><br />Copyright @ ${first_name + ' ' + last_name}</td></tr>
+            <tr><td>2.</td><td>${date.getFullYear()}</td></tr>
+            <tr><td>3.</td><td>${(hours + 11) % 12 + 1 + ':' + minutes + ' ' + am_pm}</td></tr>
+        </table>
+        `)
+        </script>
+    </footer>
+</html>
