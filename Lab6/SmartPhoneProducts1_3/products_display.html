@@ -8,14 +8,16 @@
                 var hits = 0;
                 var spins = 0;
                 var first_name = "Sean";
-            var last_name = "Sumida";
+                var last_name = "Sumida";
             </script>
         </head>
     </head>
     <body>
-        <h1>Used Smart Phone Store</h1>
+        <h1><script>
+            document.write('<b>' + first_name + '</b>' + ' ' + '<em>' + last_name + '</em>')
+        </script>'s Used Smart Phone Store</h1>
         <p style="color: black;">
-            Hits:<span id="hits_span">0</span>
+            Hits:<span id="hits_span"><script>document.write(hits)</script></span>
             Spins:<span id="spins_span">0</span>
         </p>
         <div id ="container"><main>
@@ -61,7 +63,7 @@
             var minutes = (date.getMinutes());
             var am_pm = (hours < 12) ? 'AM' : 'PM';
             document.write(`
-        <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+        <table border="1" style="margin-left: auto; margin-right: auto; text-align: center; border-collapse: collapse;">
             <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + "." + last_name[0]}.'s</h1></th></tr>
             <tr><td>1.</td><td><br />Copyright @ ${first_name + ' ' + last_name}</td></tr>
             <tr><td>2.</td><td>${date.getFullYear()}</td></tr>
