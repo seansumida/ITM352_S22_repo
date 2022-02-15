@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<<device-width>>, initial-scale=1.0">
+    <title>Smartphones</title>
+    <link rel="stylesheet" href="products-style.css">
+    <style id="localStyle"></style>
+</head>
+
+<body>
+<header>
+    <h1 id="myHead">
+        <script>
+            var hits = 10;
+            var spins = 20;
+            var hit_spin = 0;
+            var first_name = "Sean";
+            var last_name = "Sumida";
+            var over_half = false;
+            document.write("<b>" + first_name.fontsize(30) + " </b>" + "<i>" + last_name.fontsize(30) + "</i>");
+        </script>'s Used Smart Phone Store</h1>
+       <p>
+           Hits:<span id="hits_span"> 0</span>
+           Spins:<span id="spins_span"> 0</span>
+           Hit/Spin:<span id="hit_spin_span">0</span>
+           You win:<span id="win_span">pending...</span>
+       </p>
+        
+     
+        
+</header>   
+    
+    <input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl;"
+    onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';"
+    >
+    <div><main>
+        <section class="item" 
+            onmouseover="
+                if(!this.className.includes('rotate')) {
+                    this.className = 'item rotate'; 
+                    spins_span.innerHTML = ++spins;
+                }
+                hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
+                // -- Winning progress depends on hits/spins
+                hits_spins_ratio = hits/spins;
+                if (hits_spins_ratio > 0 && hits_spins_ratio < 0.25) {
+                    progress = 'On your way!';
+                } else if ( hits_spins_ratio >= 0.25 && hits_spins_ratio < 0.5) {
+                    progress = 'Almost there!';
+                } else if ( hits_spins_ratio >= 0.5 ) {
+                    if (hits < spins) {
+                        progress = 'You win!';
+                    }
+                                
+                } else {
+                    progress = 'Get going!' ;
+                }
+                win_span.innerHTML = progress;"
+            onclick="
+            if(this.className.includes('rotate')) {
+                this.className = 'item'; 
+                hits_span.innerHTML = ++hits;
+            } else {
+                this.className = 'item rotate'
+            }
+            win_span.innerHTML = ((hits/spins >= 0.5) && (hits < spins));">
+        <h2>HTC</h2>
+        <p>&dollar; 40.00</p>
+        <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg" alt="photo"></img>
+    </section>
+    <section class="item" onmouseover="className='item rotate' " onclick="className='item' ">
+        <h2>Apple</h2>
+        <p>&dollar; 75.00</p>
+        <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg" alt="photo"></img>
+    </section>
+    <section class="item" onmouseover="className='item rotate' " onclick="className='item' ">
+        <h2>Nokia</h2>
+        <p>&dollar; 35.00</p>
+        <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg" alt="photo"></img>
+    </section>
+    <section class="item" onmouseover="className='item rotate' " onclick="className='item' ">
+        <h2>Samsung</h2>
+        <p>&dollar; 45.00</p>
+        <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg" alt="photo"></img>
+    </section>
+    <section class="item" onmouseover="className='item rotate' " onclick="className='item' ">
+        <h2>Blackberry</h2>
+        <p>&dollar; 10.00</p>
+        <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg" alt="photo"></img>
+    </section>
+</main></div>
+<footer>
+    <script>
+        var date = new Date();
+        var hours = (date.getHours());
+        var minutes = (date.getMinutes());
+        var am_pm = (hours < 12) ? 'AM' : 'PM';
+        document.write(`
+    <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+        <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + "." + last_name[0]}.'s</h1></th></tr>
+        <tr><td>1.</td><td><br />Copyright @ ${first_name + ' ' + last_name}</td></tr>
+        <tr><td>2.</td><td>${date.getFullYear()}</td></tr>
+        <tr><td>3.</td><td>${(hours + 11) % 12 + 1 + ':' + minutes + ' ' + am_pm}</td></tr>
+    </table>
+    `)
+    </script>
+</footer>
+</body>
+</html>
