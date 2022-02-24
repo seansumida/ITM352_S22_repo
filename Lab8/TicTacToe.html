@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        
+        TicTacToe = [
+            {'first':'x','second':'o','third':'x'},
+            {'first':'o','second':'x','third':'o'},
+            {'first':'x','second':'o','third':'o'}
+        ];
+        
+    </script>
+    <style>
+        table, td, th {
+            border: 1px solid black;
+        }
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <table >
+        <script>
+            for(var i = 0; i<TicTacToe.length; i++){
+                document.write(`<tr><td>${TicTacToe[i].first}</td><td>${TicTacToe[i].second}</td><td>${TicTacToe[i].third}</td></tr>`)
+            }
+        </script>
+    </table>
+    <p id="demo"></p>
+    <script>
+        document.getElementById("demo").innerHTML = att("sean", 21);
+        function att(name, age, major){
+            return "name is: " + name + "<br>age is: " + age + "<br>major is: "
+            + major;
+        }
+    </script>
+</body>
+</html>
