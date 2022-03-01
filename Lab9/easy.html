@@ -17,16 +17,30 @@
     </script>
 </head>
 <body>
-    <table id="table" border="1" onclick ="newRow = this.appendChild(document.createElement('tr'));
+    <table id="table" border="1" onclick ="
+    newRow = this.appendChild(document.createElement('tr'));
     for (i=1; i <= this.rows[0].cells.length; i++) {
         newCell = newRow.appendChild(document.createElement('td'));
-        newCell.innerHTML = i;
+        newCell.innerHTML = 'xxx';
     }
 ">
-        <tr><th>Name</th><th>Price</th><th>Extended Price</th></tr>
+        <tr>
+            <th>Product #</th>
+            <th>Quantities</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Extended Price</th>
+        </tr>
         <script>
             for(var i = 0; i<products.length; i++){
-                document.write(`<tr><td>${products[i].name}</td><td>${products[i].price}</td><td>${(products[i].price*productQuantities[i]).toFixed(2)}</td></tr>`)
+                document.write(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${productQuantities[i]}</td>
+                    <td>${products[i].name}</td>
+                    <td>${products[i].price}</td>
+                    <td>${(products[i].price*productQuantities[i]).toFixed(2)}</td>
+                </tr>`)
             }
         </script>
     </table>
