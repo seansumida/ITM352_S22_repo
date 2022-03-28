@@ -1,0 +1,54 @@
+/*Sean also did this too*/
+body {
+    text-align: center;
+    /* font */
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 500;
+    /* background */
+    background: url("./images/background.jpg") ivory no-repeat center center fixed;
+}
+
+/* Img */
+img {
+    width:25%;
+    height: auto;
+    padding: 5px;
+}
+
+#banner {
+    /* background */
+    background-color: #669EBA;
+}
+
+.item_text {
+    /* padding */
+    padding: 25px;
+    justify-content: center;
+    background-image: linear-gradient(to bottom right, lightgrey, white);
+    width: 1000px;
+}
+
+p {
+    /* Set padding */
+    padding-bottom: 15px;
+}
+
+/* Block styling */ 
+body > div {
+    display: flex;
+    justify-content: center; 
+}
+
+/* button styling */
+/* from https://www.w3schools.com/css/css3_buttons.asp */
+.button {
+    background-color: #6c706c;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
