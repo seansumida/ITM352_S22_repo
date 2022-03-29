@@ -3,7 +3,7 @@
 
 var express = require('express');
 var app = express();
-var querystring = require("querystring");
+var qs = require("querystring");
 var products_array = require('./product_data.json');
 
 // Code borrowed and modified from Lab 13
@@ -28,7 +28,7 @@ app.post('/purchase', function (request, response, next) {
    // Variables used for validation
    let textbox = false; // Represents amount put into textbox
    var errors = {}; // Start with empty cart
-   var qString = querystring.stringify(request.body);
+   var qString = qs.stringify(request.body);
    // Checks all entered quantities
    for (i in products_array) {
        q = request.body['quantity' + i];
@@ -62,12 +62,10 @@ app.post('/purchase', function (request, response, next) {
   }
    else {
        // Makes an error message from all errors.
-       var errorMessage_str = '';
-       for (err in errors) {
-           errorMessage_str += errors[err] + '\n';
-       }
+       var err_msg = '';
+       for (err in errors) { err_msg += errors[err] + `\n`}
        // Goes back to product display if wrong
-       response.redirect(`./products_display.html?errorMessage=${errorMessage_str}&` + qString); 
+       response.redirect(`./products_display.html?errorMessage=${err_msg}&` + qString); 
    }
 });
 
@@ -85,12 +83,6 @@ function isNonNegInt(q, returnErrors = false) {
 
 // route all other GET requests to files in public 
 app.use(express.static('./public'));
-
-app.get("/products.js", function (request, response, next) {
-   response.type('.js');
-   var products_str = `var products_array = ${JSON.stringify(products_array)};`;
-   response.send(products_str);
-});
 
 // start server
 app.listen(8080, () => console.log(`listening on port 8080`));
