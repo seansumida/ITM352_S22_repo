@@ -7,12 +7,28 @@ body {
     font-style: normal;
     font-weight: 500;
     text-align: center; 
+    background-color: ivory;
 }
 
 table{
-    text-align: center;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td,th{
+    padding: 8px;
+    border: 1px solid transparent;
+}
+th{
+    color:whitesmoke;
+    background-color: #8EB1D9;
+}
+
+li{
+    list-style-type: none;
+
 }
 
 /* Button styling */
