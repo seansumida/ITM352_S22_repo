@@ -2,8 +2,7 @@
 body {
     text-align: center;
     /* font */
-    font-family: 'Playfair Display';
-    font-style: normal;
+font-family: 'Roboto', sans-serif;    font-style: normal;
     font-weight: 500;
     /* background */
     background: url("./images/background.jpg") ivory no-repeat center center fixed;
@@ -11,7 +10,7 @@ body {
 
 /* Img */
 img {
-    width:25%;
+    width:30%;
     height: auto;
     padding: 5px;
 }

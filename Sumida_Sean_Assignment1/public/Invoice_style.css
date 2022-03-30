@@ -3,7 +3,7 @@
 /* Aesthetics */  
 body {
     /* font */
-    font-family: 'Playfair Display';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     text-align: center; 
@@ -16,19 +16,20 @@ table{
     margin-right: auto;
     border: 1px solid black;
     border-collapse: collapse;
+    border-radius: 10px;
+
 }
 td,th{
     padding: 8px;
-    border: 1px solid transparent;
+    border-style: none;
 }
 th{
-    color:whitesmoke;
+    color:white;
     background-color: #8EB1D9;
 }
 
 li{
     list-style-type: none;
-
 }
 
 /* Button styling */

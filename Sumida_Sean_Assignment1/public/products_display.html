@@ -8,10 +8,12 @@
     <title>Boris's shop</title>
     <!--  Loads stylesheet -->
     <link rel="stylesheet" href="./products_style.css">
+    <!--  Loads font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <!-- Load product data -->
 <script src="./product_data.js"></script>
 <script>
-    // Code borrowed and modified from Lab 13
+    // Code borrowed and modified from Lab 13 ex 5
     // Check to see if the quantity inputted is valid
     function isNonNegInt(q, return_errors = false) {
         var errors = []; // assume no errors at first
@@ -25,12 +27,13 @@
         return return_errors ? errors : (errors.length == 0);
     }
 
+    // Code borrowed and modified from Lab 13 extra credit
     // Check the quantity inputted in the textbox and changes the innerHTMl based on the user input
-    function checkQuantityTextbox(qtyTextbox) {
-        errs = isNonNegInt(qtyTextbox.value, true);
+    function checkQuantityTextbox(theTextbox) {
+        errs = isNonNegInt(theTextbox.value, true);
         if (errs.length == 0) errs = ['You want: '];
-        if (qtyTextbox.value.trim() == '') errs = ['Please type quantity desired: '];
-        document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
+        if (theTextbox.value.trim() == '') errs = ['Please type quantity desired: '];
+        document.getElementById(theTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
     }
 </script>
 </head>

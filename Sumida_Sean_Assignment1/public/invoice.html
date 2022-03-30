@@ -1,4 +1,4 @@
-<!-- Written by Sean Sumida used various different code from labs -->
+<!-- Written by Sean Sumida used various different code from labs and mostly from the Invoice WOD-->
 <!-- This page creates and calculates the price for items being purchased in the shop -->
 <!-- Load product data -->
 <script src="./product_data.js"></script>
@@ -26,7 +26,7 @@ var quantities = [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <!--  Load font -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Playfair+Display">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <!--  Load style file -->
     <link rel="stylesheet" href="./Invoice_style.css">
 </head>
@@ -44,7 +44,7 @@ var quantities = [];
     </tr>
     <script>
         // Generate Rows
-        subtotal = 0; // Compute subtotal
+        var subtotal = 0; // Compute subtotal
         for (i = 0; i < products_array.length; i++) {
             if (quantities[i] > 0) { // setup conditionnals
                 extended_price = quantities[i] * products_array[i].price // Compute extended price
@@ -66,23 +66,20 @@ var quantities = [];
 
         // Compute shipping
         if(subtotal <= 5000) {
+            shipping = 100;
+        }
+        else if (subtotal >= 10000) {
+            shipping = 0.05*subtotal;
+        }
+        else if(subtotal >=5000) {
             shipping = 0;
         }
-
-        else if(subtotal <=10000) {
-            shipping = 500;
-        }
-
-        else {
-            shipping = 5*subtotal;
-        }
-
         // Compute grand total
         var total = subtotal + tax_amount + shipping;
     </script>
 
     <tr>
-      <td colspan="4" width="100%">&nbsp;</td>
+      <td style="border-top: 1px black; "colspan="4" width="100%">&nbsp;</td>
     </tr>
 
     <script>
@@ -129,6 +126,6 @@ var quantities = [];
   <li>A subtotal over &#165;5000 will have free shipping.</li>
   <li>Subtotals over &#165;10000 will be charged 5% of the subtotal amount.</li>
 </p></b></div>
-<input type="button" class="button" value="Back to Home" onclick="window.location.href = 'products_display.html';">
+<input type="button" class="button" value="Back to Home" onclick="window.location.href = 'index.html';">
 </body>
 </html>

@@ -6,7 +6,7 @@ var app = express();
 var qs = require("querystring");
 var products_array = require('./product_data.json');
 
-// Code borrowed and modified from Lab 13
+// Code borrowed and modified from Lab 13 ex 5
 // Gets data from body
 app.use(express.urlencoded({ extended: true }));
 // Monitors requests and sends it to the next request
@@ -15,12 +15,12 @@ app.all('*', function (request, response, next) {
    next();
 });
 
-// Code borrowed and modified from Lab 13
+// Code borrowed and modified from Lab 13 ex 5
 // changes the json file to a js file
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');
-   var products_str = `var products_array = ${JSON.stringify(products_array)};`;
-   response.send(products_str);
+   var products = `var products_array = ${JSON.stringify(products_array)};`;
+   response.send(products);
 });
 
 // Process purchase request
@@ -45,12 +45,12 @@ app.post('/purchase', function (request, response, next) {
            errors['quantity' + i] = `${q} of ${products_array[i].name} is not available. Only ${products_array[i].quantity} are available.`;
        }
    }
+
+   // Code borrowed and modified from Lab 13 ex 5
    // No quantities were selected
    if (textbox == false) {
-       errors['no_quantities'] = `Please input your quantity.`;
+       errors['empty'] = `Please input your quantity.`;
    }
-
-   // Code borrowed and modified from Lab 13
    // If no errors go to invoice, if errors go back to products
    if (Object.keys(errors).length == 0) {
       // If purchase is valid, we remove from quantity available, the refreshes page with new quantity available
@@ -69,7 +69,7 @@ app.post('/purchase', function (request, response, next) {
    }
 });
 
-// Borrowed and modified from Lab 13
+// Borrowed and modified from Lab 13 ex 5
 function isNonNegInt(q, returnErrors = false) {
     errors = []; // Assume no errors at first
     if (q == '') q = 0;
