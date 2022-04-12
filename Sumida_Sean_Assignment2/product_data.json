@@ -1,0 +1,37 @@
+[ 
+    {
+        "brand" : "Amplifying Tome",
+        "image" : "./images/Amplifying_Tome_item_HD.png",
+        "price" : 435,
+        "desc" : "+20 ability power",
+        "quantity" : 100
+    },
+    {
+        "brand" : "Cloth Armor",
+        "image" : "./images/Cloth_Armor_item_HD.png",
+        "price" : 300,
+        "desc" : "+15 armor",
+        "quantity" : 100
+    },
+    {
+        "brand" : "Dagger",
+        "image" : "./images/Dagger_item_HD.png",
+        "price" : 300,
+        "desc" : "+12% attack speed",
+        "quantity" : 100
+    },
+    {   
+        "brand" : "Long Sword",
+        "image" : "./images/Long_Sword_item_HD.png",
+        "price" : 350,
+        "desc" : "+10 attack damage",
+        "quantity" : 100
+    },
+    {   
+        "brand" : "Null-Magic Mantle",
+        "image" : "./images/Null-Magic_Mantle_item_HD.png",
+        "price" : 450,
+        "desc" : "+25 magic resistance",
+        "quantity" : 100
+    }
+]
