@@ -80,16 +80,12 @@
     
 <!-- Creates form for new users to make an account--> 
 <!-- Borrowed and modified code from Lab 14-->
-    <form id="register_form" name="register_form" action="register" method="POST">
+    <form id="editing_form" name="editing_form" action="editing" method="POST">
         <div class="container">
             <h1>Register a Poke Mart Account</h1>
     <p>To shop and purchase products please register to become a member!</p>
             <div id="formBoxes">
-                <!-- New user registration page -->
-                <input type="text" name="name" id="name" placeholder="Enter Name" style="padding:8px">
-                <br>
-                <span id="name_errors" style="color: red;"></span>
-                <br>
+                <!-- Edit user info page -->
                 <input type="text" name="email" id="email" placeholder="Enter Email (ex. dport@hawaii.edu)" style="padding:8px">
                 <br>
                 <span id="email_errors" style="color: red;"></span>
@@ -98,26 +94,28 @@
                 <br>
                 <span id="password_errors" style="color: red;"></span>
                 <br>
-                <input type="password" name="repeat_password" id="repeat_password" placeholder="Re-enter Password" style="padding:8px">
+                <input type="password" name="new_password" id="new_password" placeholder="Enter New Password" style="padding:8px">
                 <br>
-                <span id="repeat_password_errors" style="color: red;"></span>
+                <span id="new_password_errors" style="color: red;"></span>
+                <br>
+                <input type="password" name="repeat_new_password" id="repeat_new_password" placeholder="Re-enter New Password" style="padding:8px">
+                <br>
+                <span id="repeat_new_password_errors" style="color: red;"></span>
                 <br>
             </div>
             <!-- Submit button -->
-            <input type="submit" class="btn" name="register_button" id="register_button" value=Register></input>
-            <p style="font-weight: bold;">Already have an account?</p>
+            <input type="submit" class="btn" name="editing_button" id="editing_button" value="Change Password"></input>  
        </div>
-       <!-- Login button -->
-       <input type="button" class="btn2" id="loginhere_button" value="Login here" onclick="window.location.href = './login.html' + document.location.search;"></br></p>
+       <input type="button" class="btn2" id="back" value="Back" onclick="window.location.href = './invoice.html' + document.location.search;">
     </hr>
     </form>
 </body>
 </html>
 <script>
     let params = (new URL(document.location)).searchParams;
-    if (params.has('errors_reg')) {
+    if (params.has('edited_errors')) {
         // Converts string to json then object
-        var errors = JSON.parse(params.get('errors_reg'));
+        var errors = JSON.parse(params.get('edited_errors'));
         for(err in errors) { 
             // Puts error messages in span where error occured
             document.getElementById(`${err}_errors`).innerHTML = errors[err].join('<br>');

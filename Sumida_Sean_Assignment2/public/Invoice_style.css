@@ -44,3 +44,20 @@ li{
     display: inline-block;
     font-size: 16px;
 }
+
+.btn2{
+    background-color: #ff7477;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    margin-left: 30%;
+    margin-right: 30%;
+    width: 40%;
+    border-radius: 5px;
+
+}
+.btn2:hover {
+    opacity: 0.8;
+}

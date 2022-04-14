@@ -2,11 +2,12 @@
 <!-- This page creates and calculates the price for items being purchased in the shop -->
 <!-- Load product data -->
 <script src="./product_data.js"></script>
+<script src="./user_data.json" type="json"></script> 
 <script>
 // params variable derived from Lab12
 let params = (new URL(document.location)).searchParams;
 var quantities = [];
-
+var user_data = './user_data.json';
     // Process invoice
     if (params.has('purchase_submit')) {
         for (i = 0; i < products_array.length; i++) {
@@ -16,7 +17,13 @@ var quantities = [];
             }
         }
     }
-
+    // checks if the user has logged in or registered
+    if (params.has('name') == false) { 
+    alert('Please log in or register first!');
+    // Redirect to product display with error message if not logged in or registered
+    location.href = './products_display.html'; 
+    window.stop;
+  }
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +39,14 @@ var quantities = [];
 </head>
 <body>
 <div>
-
+    <!-- Personalization -->
+    <div>
+        <h2>Thank you for shopping with us <script>document.write(params.get('name'));</script>
+        </h2>
+        <h3>
+            Your receipt was sent to <script>document.write(params.get('email'));</script>
+        </h3>
+    </div>
 <table>
   <tbody>
     
@@ -128,4 +142,5 @@ var quantities = [];
 </p></b></div>
 <input type="button" class="button" value="Back to Home" onclick="window.location.href = 'index.html';">
 </body>
+<input type="button" class="btn2" id="edit" value="Change Password" onclick="window.location.href = './editing.html' + document.location.search;">
 </html>
