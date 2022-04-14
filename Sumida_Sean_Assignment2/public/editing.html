@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
+    <title>New Password</title>
     <style>
         /* Register Page Background */
         html { 
@@ -82,8 +82,8 @@
 <!-- Borrowed and modified code from Lab 14-->
     <form id="editing_form" name="editing_form" action="editing" method="POST">
         <div class="container">
-            <h1>Register a Poke Mart Account</h1>
-    <p>To shop and purchase products please register to become a member!</p>
+            <h1>Changing your password</h1>
+    <p>Enter your email and current password to enter your new password.</p>
             <div id="formBoxes">
                 <!-- Edit user info page -->
                 <input type="text" name="email" id="email" placeholder="Enter Email (ex. dport@hawaii.edu)" style="padding:8px">
@@ -112,6 +112,7 @@
 </body>
 </html>
 <script>
+    // gets params from the url derived from Lab12
     let params = (new URL(document.location)).searchParams;
     if (params.has('edited_errors')) {
         // Converts string to json then object
