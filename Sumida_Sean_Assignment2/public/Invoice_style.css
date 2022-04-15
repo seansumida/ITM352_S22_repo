@@ -43,8 +43,11 @@ li{
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    border-radius: 5px;
 }
-
+.button:hover {
+    opacity: 0.8;
+}
 .btn2{
     background-color: #ff7477;
     color: white;
@@ -54,7 +57,6 @@ li{
     cursor: pointer;
     margin-left: 30%;
     margin-right: 30%;
-    width: 40%;
     border-radius: 5px;
 
 }

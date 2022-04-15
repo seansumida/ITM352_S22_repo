@@ -129,7 +129,7 @@ app.post("/login", function (request, response) {
 */
 // processes registrations adapted from lab 14 ex 4 and Tiffany Young
 app.post("/register", function(request, response){
-    //creates errors message to later display in the innerHTML
+    // creates errors message to later display in the innerHTML
     var errors_reg = {};
     errors_reg['name'] = [];
     errors_reg['email'] = [];
@@ -137,9 +137,9 @@ app.post("/register", function(request, response){
     errors_reg['repeat_password'] = [];
 
     // checks if name is using correct characters
-    if (/^[A-Za-z, ]+ [A-Za-z]+$/.test(request.body['name'])) {
-    // checks if name is input correctly   
-    } 
+    if (/^[A-Za-z, ]+ [A-Za-z]+$/.test(request.body['name'])) { 
+    }
+    // checks if name is input correctly 
     else {
     errors_reg['name'].push(`Enter your full name (ex. Dan Port)`);
     }
@@ -147,7 +147,6 @@ app.post("/register", function(request, response){
     if (request.body['name'].length > 30) {
         errors_reg['name'].push(`Please enter your name with less than 30 characters`);
     }
-
     // email limitations used from w3 schools
     if (/^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/.test(request.body.email)) {
        // checks if there is a email entered
@@ -175,6 +174,7 @@ app.post("/register", function(request, response){
     } else if (request.body['password'] != request.body['repeat_password']) {
         errors_reg['repeat_password'].push(`Your passwords do not match`);
     }
+    // checking amount of errors
     var amount_errors = 0;
     for (errors in errors_reg) {
         amount_errors += errors_reg[errors].length;
@@ -253,7 +253,7 @@ app.post("/editing", function (request, response) {
     } 
     // no emails are accounts are registered with input email
     else { edited_errors['email'].push(`Email has not been registered`);}
-
+    // checking amount of errors 
     var amount_errors = 0;
     for (errors in edited_errors) {
         amount_errors += edited_errors[errors].length;
