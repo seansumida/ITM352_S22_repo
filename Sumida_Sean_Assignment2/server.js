@@ -9,7 +9,6 @@ var user_data = './user_data.json';
 var fs = require('fs');
 var qString;
 
-app.use(express.urlencoded({ extended: true}));
 // lab 14 ex2
 if (fs.existsSync(user_data)) {
     data = fs.readFileSync(user_data, 'utf-8');
