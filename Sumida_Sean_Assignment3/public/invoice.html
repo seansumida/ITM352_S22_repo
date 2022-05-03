@@ -1,0 +1,148 @@
+<!-- Written by Sean Sumida used various different code from labs and mostly from the Invoice WOD-->
+<!-- This page creates and calculates the price for items being purchased in the shop -->
+<!-- Load product data -->
+<script src="./product_data.js"></script>
+<script src="./user_data.json" type="json"></script> 
+<script>
+// params variable derived from Lab12
+let params = (new URL(document.location)).searchParams;
+var quantities = [];
+var user_data = './user_data.json';
+    // Process invoice
+    if (params.has('purchase_submit')) {
+        for (i = 0; i < products_array.length; i++) {
+            if (params.has(`quantity${i}`)) {
+                a_qty = params.get(`quantity${i}`);
+                quantities[i] = a_qty;
+            }
+        }
+    }
+    // checks if the user has logged in or registered
+    if (params.has('name') == false) { 
+    alert('Please Login or Register!');
+    // Rrdirect to product display with error message if not logged in or registered
+    location.href = './products_display.html'; 
+    window.stop;
+  }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!--  Load font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!--  Load style file -->
+    <link rel="stylesheet" href="./Invoice_style.css">
+</head>
+<body>
+<div>
+    <!-- Personalization -->
+    <div>
+        <h2>Thank you for shopping with us <script>document.write(params.get('name'));</script>
+        </h2>
+        <h3>
+            Your receipt was sent to <script>document.write(params.get('email'));</script>
+        </h3>
+    </div>
+<table>
+  <tbody>
+    
+    <tr>
+      <th style="text-align: left;" width="43%">Item</th>
+      <th style="text-align: left;" width="11%">Quantity</th>
+      <th style="text-align: left;" width="13%">Price</th>
+      <th style="text-align: left;" width="54%">Extended Price</th>
+    </tr>
+    <script>
+        // Generate Rows
+        var subtotal = 0; // Compute subtotal
+        for (i = 0; i < products_array.length; i++) {
+            if (quantities[i] > 0) { // setup conditionnals
+                extended_price = quantities[i] * products_array[i].price // Compute extended price
+                subtotal = extended_price + subtotal; // Add subtotal back to itself
+                document.write(` 
+                    <tr>
+                        <td width="43%">${products_array[i].brand}</td>
+                        <td align="center" width="11%">${quantities[i]}</td>
+                        <td width="13%">&#165;${products_array[i].price}</td>
+                        <td width="54%">&#165;${extended_price.toFixed(0)}</td>
+                    </tr>
+                `);
+            }
+        }
+        
+        // Compute tax
+        var tax_rate = 0.04712
+        var tax_amount = tax_rate*subtotal;
+
+        // Compute shipping
+        if(subtotal <= 5000) {
+            shipping = 100;
+        }
+        else if (subtotal >= 10000) {
+            shipping = 0.05*subtotal;
+        }
+        else if(subtotal >=5000) {
+            shipping = 0;
+        }
+        // Compute grand total
+        var total = subtotal + tax_amount + shipping;
+    </script>
+
+    <tr>
+      <td style="border-top: 1px black; "colspan="4" width="100%">&nbsp;</td>
+    </tr>
+
+    <script>
+    
+        // Subtotal
+        document.write(`
+        <tr>
+        <td style="text-align: right;" colspan="3" width="67%">Subtotal</td>
+        <td style="text-align: center;" width="54%">&#165;${subtotal.toFixed(0)}</td>
+        </tr>
+        `)
+        
+        // Tax
+        document.write(`
+        <tr>
+        <td style="text-align: right;" colspan="3" width="67%">Tax @ ${(tax_rate*100).toFixed(3)}%</span></td>
+        <td style="text-align: center;" width="54%">&#165;${tax_amount.toFixed(0)}</td>
+        </tr>
+        `)
+
+        // Shipping
+        document.write(`
+        <tr>
+        <td style="text-align: right;" colspan="3" width="67%">Shipping</span></td>
+        <td style="text-align: center;" width="54%">&#165;${shipping.toFixed(0)}</td>
+        </tr>
+        `)
+
+        // Total
+        document.write(`
+        <tr>
+        <td style="text-align: right;" colspan="3" width="67%"><b>Total</b></td>
+        <td style="text-align: center;" width="54%"><strong>&#165;${total.toFixed(0)}</strong></td>
+        </tr>
+        `)
+
+    </script>
+  </tbody>
+</table>
+
+</div>
+<div><b><p>SHIPPING POLICY
+  <li>A shipping fee will be applied to purchases under &#165;5000.</li>
+  <li>A subtotal over &#165;5000 will have free shipping.</li>
+  <li>Subtotals over &#165;10000 will be charged 5% of the subtotal amount.</li>
+</p></b></div>
+<input type="button" class="button" value="Back to Home" onclick="window.location.href = 'index.html';">
+<br>
+<input type="button" class="btn2" id="edit" value="Change Password" onclick="window.location.href = './editing.html' + document.location.search;">
+</body>
+
+</html>

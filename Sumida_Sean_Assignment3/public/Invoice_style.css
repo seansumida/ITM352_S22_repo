@@ -1,0 +1,65 @@
+/* Sean did this */
+
+/* Aesthetics */  
+body {
+    /* font */
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    text-align: center; 
+    background-color: ivory;
+}
+
+table{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 10px;
+
+}
+td,th{
+    padding: 8px;
+    border-style: none;
+}
+th{
+    color:white;
+    background-color: #8EB1D9;
+}
+
+li{
+    list-style-type: none;
+}
+
+/* Button styling */
+/* Modified from https://www.w3schools.com/css/css3_buttons.asp */
+.button {
+    background-color: #6c706c;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+.button:hover {
+    opacity: 0.8;
+}
+.btn2{
+    background-color: #ff7477;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    margin-left: 30%;
+    margin-right: 30%;
+    border-radius: 5px;
+
+}
+.btn2:hover {
+    opacity: 0.8;
+}

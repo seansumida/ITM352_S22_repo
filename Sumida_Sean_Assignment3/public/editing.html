@@ -1,0 +1,126 @@
+<!-- Register page, modified and borrowed Lab 14 and template from ww3schools.com -->
+<!-- Author: Sean Sumida  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Password</title>
+    <style>
+        /* Register Page Background */
+        html { 
+            background-image: url(./images/background.jpg); 
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .container{
+            text-align: center;
+            overflow: auto;
+            background-color: whitesmoke;
+            margin-left: 30%;
+            margin-right: 30%;
+            padding-bottom: 20px;
+            border-radius: 5px;
+        }
+        /* button and input field from w3 schools */
+       .btn{
+            background-color: #3edfdf;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            margin-left: 30%;
+            margin-right: 30%;
+            border: none;
+            cursor: pointer;
+            width: 40%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+       }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn2{
+            background-color: #ff7477;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            margin-left: 30%;
+            margin-right: 30%;
+            width: 40%;
+            border-radius: 5px;
+       }
+        .btn2:hover {
+            opacity: 0.8;
+        }
+        input[type=text] {
+            width: 90%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background-color: whitesmoke;
+            border: none;
+            border-bottom: 2px solid black;
+        }
+        input[type=password] {
+            width: 90%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background-color: whitesmoke;
+            border: none;
+            border-bottom: 2px solid black;
+        }
+        </style>
+</head>
+<body>
+    
+<!-- Creates form for new users to make an account--> 
+<!-- Borrowed and modified code from Lab 14-->
+    <form id="editing_form" name="editing_form" action="editing" method="POST">
+        <div class="container">
+            <h1>Changing your password</h1>
+    <p>Enter your email and current password to enter your new password.</p>
+            <div id="formBoxes">
+                <!-- Edit user info page -->
+                <input type="text" name="email" id="email" placeholder="Enter Email (ex. dport@hawaii.edu)" style="padding:8px">
+                <br>
+                <span id="email_errors" style="color: red;"></span>
+                <br>
+                <input type="password" name="password" id="password" placeholder="Enter Password" style="padding:8px">
+                <br>
+                <span id="password_errors" style="color: red;"></span>
+                <br>
+                <input type="password" name="new_password" id="new_password" placeholder="Enter New Password" style="padding:8px">
+                <br>
+                <span id="new_password_errors" style="color: red;"></span>
+                <br>
+                <input type="password" name="repeat_new_password" id="repeat_new_password" placeholder="Re-enter New Password" style="padding:8px">
+                <br>
+                <span id="repeat_new_password_errors" style="color: red;"></span>
+                <br>
+            </div>
+            <!-- Submit button -->
+            <input type="submit" class="btn" name="editing_button" id="editing_button" value="Change Password"></input>  
+       </div>
+       <input type="button" class="btn2" id="back" value="Back" onclick="window.location.href = './invoice.html' + document.location.search;">
+    </hr>
+    </form>
+</body>
+</html>
+<script>
+    // gets params from the url derived from Lab12
+    let params = (new URL(document.location)).searchParams;
+    if (params.has('edited_errors')) {
+        // Converts string to json then object
+        var errors = JSON.parse(params.get('edited_errors'));
+        for(err in errors) { 
+            // Puts error messages in span where error occured
+            document.getElementById(`${err}_errors`).innerHTML = errors[err].join('<br>');
+            // Makes textboxes sticky
+            document.getElementById(err).value = params.get(err);
+        }       
+    }
+</script>

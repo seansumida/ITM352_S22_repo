@@ -1,0 +1,178 @@
+{
+"Basic":[ 
+    {
+        "brand" : "Amplifying Tome",
+        "image" : "./images/Amplifying_Tome_item_HD.png",
+        "price" : 435,
+        "desc" : "+20 ability power",
+        "quantity" : 100
+    },
+    {
+        "brand" : "Cloth Armor",
+        "image" : "./images/Cloth_Armor_item_HD.png",
+        "price" : 300,
+        "desc" : "+15 armor",
+        "quantity" : 100
+    },
+    {
+        "brand" : "Dagger",
+        "image" : "./images/Dagger_item_HD.png",
+        "price" : 300,
+        "desc" : "+12% attack speed",
+        "quantity" : 100
+    },
+    {   
+        "brand" : "Long Sword",
+        "image" : "./images/Long_Sword_item_HD.png",
+        "price" : 350,
+        "desc" : "+10 attack damage",
+        "quantity" : 100
+    },
+    {   
+        "brand" : "Null-Magic Mantle",
+        "image" : "./images/Null-Magic_Mantle_item_HD.png",
+        "price" : 450,
+        "desc" : "+25 magic resistance",
+        "quantity" : 100
+    },
+    {   
+        "brand" : "Rejuvenation Bead",
+        "image" : "./images/Rejuvenation_Bead_item_HD.png",
+        "price" : 300,
+        "desc" : "+100% base health regeneration",
+        "quantity" : 100
+    }
+],
+"Epic" : [
+    {
+        "brand" : "Bami's Cinder",
+        "image" : "./images/Bamis_Cinder_item_HD.png",
+        "price" : 1100,
+        "desc" : "+300 health",
+        "quantity" : 50
+    },
+    {
+        "brand" : "Bandleglass Mirror",
+        "image" : "./images/Bandleglass_Mirror_item_HD.png",
+        "price" : 950,
+        "desc" : "+20 ability power <br> +10 ability haste <br> +50% base mana regeneration",
+        "quantity" : 50
+    },
+    {
+        "brand" : "Lost Chapter",
+        "image" : "./images/Lost_Chapter_item_HD.png",
+        "price" : 1300,
+        "desc" : "+40 ability power <br> +10 ability haste <br> +300 mana",
+        "quantity" : 50
+    },
+    {   
+        "brand" : "Phage",
+        "image" : "./images/Phage_item_HD.png",
+        "price" : 1100,
+        "desc" : "+15 attack damage <br> +200 health",
+        "quantity" : 50
+    },
+    {   
+        "brand" : "Serrated Dirk",
+        "image" : "./images/Serrated_Dirk_item_HD.png",
+        "price" : 1100,
+        "desc" : "+30 attack damage",
+        "quantity" : 50
+    },
+    {   
+        "brand" : "Zeal",
+        "image" : "./images/Zeal_item_HD.png",
+        "price" : 1050,
+        "desc" : "+18% attack speed <br> +15% critical strike chance",
+        "quantity" : 50
+    }
+],
+"Legendary":[
+    {
+        "brand" : "Death's Dance",
+        "image" : "./images/Deaths_Dance_item_HD.png",
+        "price" : 3300,
+        "desc" : "+55 attack damage <br> +15 ability haste <br> +45 armor",
+        "quantity" : 10
+    },
+    {
+        "brand" : "Demonic Embrace",
+        "image" : "./images/Demonic_Embrace_item_HD.png",
+        "price" : 3000,
+        "desc" : "+60 ability power <br> +450 health",
+        "quantity" : 10
+    },
+    {
+        "brand" : "Guinsoo's Rageblade",
+        "image" : "./images/Guinsoos_Rageblade_item_HD.png",
+        "price" : 2600,
+        "desc" : "+45% attack speed <br> +20% critical strike chance",
+        "quantity" : 10
+    },
+    {   
+        "brand" : "Redemption",
+        "image" : "./images/Redemption_item_HD.png",
+        "price" : 2300,
+        "desc" : "+15 ability haste <br> +200 health <br> +100% base mana regeneration <br> +20% heal and shield power",
+        "quantity" : 10
+    },
+    {   
+        "brand" : "Warmog's Armor",
+        "image" : "./images/Warmogs_Armor_item_HD.png",
+        "price" : 3000,
+        "desc" : "+10 ability haste <br> +800 health <br> +200% base health regeneration",
+        "quantity" : 10
+    },
+    {   
+        "brand" : "Youmuu's Ghostblade",
+        "image" : "./images/Youmuus_Ghostblade_item_HD.png",
+        "price" : 3000,
+        "desc" : "+55 attack damage <br> +15 ability haste <br> +18 Lethality",
+        "quantity" : 10
+    }
+],
+"Mythic":[
+    {
+        "brand" : "Eclipse",
+        "image" : "./images/Eclipse_item_HD.png",
+        "price" : 3100,
+        "desc" : "+55 attack damage <br> +18 Lethality <br> +8% omnivamp",
+        "quantity" : 5
+    },
+    {
+        "brand" : "Galeforce",
+        "image" : "./images/Galeforce_item_HD.png",
+        "price" : 3400,
+        "desc" : "+60 attack damage <br> +20% attack speed <br> +20% critical strike chance",
+        "quantity" : 5
+    },
+    {
+        "brand" : "Liandry's Anguish",
+        "image" : "./images/Liandrys_Anguish_item_HD.png",
+        "price" : 3200,
+        "desc" : "+80 ability power <br> +20 ability haste <br> +600 mana",
+        "quantity" : 5
+    },
+    {   
+        "brand" : "Moonstone Renewer",
+        "image" : "./images/Moonstone_Renewer_item_HD.png",
+        "price" : 2500,
+        "desc" : "+40 ability power <br> +20 ability haste <br> +200 health <br> +100% base mana regeneration",
+        "quantity" : 5
+    },
+    {   
+        "brand" : "Sunfire Aegis",
+        "image" : "./images/Sunfire_Aegis_item_HD.png",
+        "price" : 3200,
+        "desc" : "+20 ability haste <br> +350 health <br> +35 armor <br> +35 magic resistance",
+        "quantity" : 5
+    },
+    {   
+        "brand" : "Trinity Force",
+        "image" : "./images/Trinity_Force_item_HD.png",
+        "price" : 3333,
+        "desc" : "+35 attack damage <br> +20 ability haste <br> +30% attack speed <br> +300 health",
+        "quantity" : 5
+    }
+]
+}

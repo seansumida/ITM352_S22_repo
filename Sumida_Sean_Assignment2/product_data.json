@@ -3,7 +3,7 @@
         "brand" : "Amplifying Tome",
         "image" : "./images/Amplifying_Tome_item_HD.png",
         "price" : 435,
-        "desc" : "+20 ability power",
+        "desc" : "+20 ability power <br> +50% base mana regeneration <br> +50% base mana regeneration",
         "quantity" : 100
     },
     {
