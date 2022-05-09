@@ -1,4 +1,4 @@
-// author Sean Sumida used code from various differnt labs aswell as adapted code from Tiffany Young.
+// author Sean Sumida used code from various differnt labs, Assignment code examples, StockOverflow, and w3schools.
 // This code initializes the server for the webpage aswell as checks valid inputs for the HTMl form
 
 var express = require('express');
@@ -8,14 +8,21 @@ var products_array = require('./product_data.json');
 var user_data = './user_data.json';
 var fs = require('fs');
 var qString;
+var myParser = require("body-parser");
 
-// Setup sessions
+app.use(myParser.urlencoded({ extended: true }));
+app.use(myParser.json());
+
+// Setup session
 var session = require('express-session'); // Require express sessions
 app.use(session({ secret: "MySecretKey" })); // Lab 15, initializes sessions
 
 // Setup cookies
 var cookieParser = require('cookie-parser'); // Require cookie-parser
 app.use(cookieParser()); // Calls cookies
+
+// Setup nodemailer
+const nodemailer = require("nodemailer"); // Require nodemailer module
 
 // lab 14 ex2
 if (fs.existsSync(user_data)) {
@@ -32,16 +39,99 @@ app.use(express.urlencoded({ extended: true }));
 // Monitors requests and sends it to the next request
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to path ' + request.path);
+   if (typeof request.session.cart == "undefined") {request.session.cart = {};}
    next();
+});
+
+// Retrieves product data from the json
+app.post("/get_products_data", function (request, response, next) {
+    response.json(products_array);
 });
 
 // Code borrowed and modified from Lab 13 ex 5
 // changes the json file to a js file
-app.get("/product_data.js", function (request, response, next) {
+app.get("/products_data.js", function (request, response, next) {
    response.type('.js');
    var products = `var products_array = ${JSON.stringify(products_array)};`;
    response.send(products);
 });
+var products_data;
+var products_data_file = './product_data.json';
+if (fs.existsSync(products_data_file)) {
+    console.log("reading the file");
+    var products_data = JSON.parse(fs.readFileSync(products_data_file, 'utf-8'));
+};
+/*
+
+███████╗███╗░░██╗░█████╗░██████╗░██╗░░░██╗██████╗░████████╗██╗░█████╗░███╗░░██╗
+██╔════╝████╗░██║██╔══██╗██╔══██╗╚██╗░██╔╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+█████╗░░██╔██╗██║██║░░╚═╝██████╔╝░╚████╔╝░██████╔╝░░░██║░░░██║██║░░██║██╔██╗██║
+██╔══╝░░██║╚████║██║░░██╗██╔══██╗░░╚██╔╝░░██╔═══╝░░░░██║░░░██║██║░░██║██║╚████║
+███████╗██║░╚███║╚█████╔╝██║░░██║░░░██║░░░██║░░░░░░░░██║░░░██║╚█████╔╝██║░╚███║
+╚══════╝╚═╝░░╚══╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░░░░░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
+*/
+// Password encryption from Stackoverflow
+const { count } = require('console');
+const e = require('express'); // For encryption
+const { Cookie } = require('express-session');
+const shift = 4;
+function encrypt(password) {
+    var encrypted = [];
+    var encrypted_result = "";
+    // Loops through the passwords then save the new encrypted password
+    for (var i = 0; i < password.length; i++) {
+        encrypted.push(password.charCodeAt(i) + shift);
+        encrypted_result += String.fromCharCode(encrypted[i]);
+    }
+    return encrypted_result;
+}
+/*
+
+░█████╗░░█████╗░██████╗░████████╗
+██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝
+██║░░╚═╝███████║██████╔╝░░░██║░░░
+██║░░██╗██╔══██║██╔══██╗░░░██║░░░
+╚█████╔╝██║░░██║██║░░██║░░░██║░░░
+░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
+*/
+
+app.post('/get_cart', function (request, response) {
+    response.json(request.session.cart);
+});
+
+app.post('/cart_qty', function (request, response) {
+    var total = 0; // 
+    for (pkey in request.session.cart) {
+        total += request.session.cart[pkey].reduce((a, b) => a + b, 0);
+    }
+    response.json({ qty: total });
+});
+
+// Updates shopping cart session with new quantity info
+app.post("/update_cart", function (request, response) {
+    // Replaces cart in session with post and checks if updated quantities are valid
+    let haserrors = false;
+    for (let product_name in request.body.quantities) {
+        for (let i in request.body.quantities[product_name]) {
+            qty = Number(request.body.quantities[product_name][i]);
+            qty = parseInt(Number(qty));
+            haserrors = !isNonNegInt(Number(qty)) || haserrors;
+        };
+    };
+    // Send alert if there are errors
+    if (haserrors == true) { 
+        msg = "Invalid quantities, cart has not updated.";
+    // Update cart if there are no errors
+    } else { 
+        msg = "Cart updated successfully. ";
+        request.session.cart = request.body.quantities;
+    }
+    // If items failed to add to the cart, finds the page the user came from
+    const ref_URL = new URL(request.get('Referrer')); 
+    ref_URL.searchParams.set("msg", msg); // Gets new querystring and adds to querystring
+    response.redirect(ref_URL.toString()); // Redirect user back to page they were on
+});
+
 /*
 
 ██████╗░██╗░░░██╗██████╗░░█████╗░██╗░░██╗░█████╗░░██████╗███████╗
@@ -52,49 +142,36 @@ app.get("/product_data.js", function (request, response, next) {
 ╚═╝░░░░░░╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝
 */
 // Process purchase request
+// Non logged in users can view this page because it acts like a cart to edit their products these guests will have less funcionality due to them not being logged in
 app.post('/purchase', function (request, response, next) {
-   // Variables used for validation
-   let textbox = false; // Represents amount put into textbox
-   var errors = {}; // Start with empty cart
-   qString = qs.stringify(request.body);
-   // Checks all entered quantities
-   for (i in products_array) {
-       q = request.body['quantity' + i];
-       // If the quantity is invalid
-       if (isNonNegInt(q) == false) {
-           errors['invalid_quantity' + i] = `${q} is not a valid input`;
-       }
-       // If quantity is greater than 0
-       if (q > 0) {
-           textbox = true;
-       }
-       // If quantity input is greater than quantity available
-       if (q > products_array[i].quantity) {
-           errors['quantity' + i] = `${q} of ${products_array[i].name} is not available. Only ${products_array[i].quantity} are available.`;
-       }
-   }
-
-   // Code borrowed and modified from Lab 13 ex 5
-   // No quantities were selected
-   if (textbox == false) {
-       errors['empty'] = `Please input your quantity.`;
-   }
-   // If no errors go to invoice, if errors go back to products
-   if (Object.keys(errors).length == 0) {
-      // If purchase is valid, we remove from quantity available, the refreshes page with new quantity available
-      for (i in products_array) {
-          products_array[i].quantity -= Number(request.body['quantity' + i]);
-      }
-      // Goes to login upon valid purchase
-      response.redirect("./login.html?" + qString); 
-  }
-   else {
-       // Makes an error message from all errors.
-       var err_msg = '';
-       for (err in errors) { err_msg += errors[err] + `\n`}
-       // Goes back to product display if wrong
-       response.redirect(`./products_display.html?errorMessage=${err_msg}&` + qString); 
-   }
+    var qty = request.body["prod_qty"];
+    var product_name = request.body["prod_type"];
+    var product_index = request.body["prod_index"];
+    var cart_info = { 
+        "quantity": qty, 
+        "type": product_name, 
+        "index": product_index 
+    };
+    response.cookie('cart_info', JSON.stringify(cart_info), { maxAge: 30 * 60 * 2000 });
+    // If the entered quantity passes the validation tests, add to cart. If the tests are not passed decline
+    if (isNonNegInt(qty) && qty != 0 && qty <= products_data[product_name][product_index].quantity) {
+        // Adds quantity data to the cart session
+        if (typeof request.session.cart[product_name] == "undefined") {
+            request.session.cart[product_name] = [];
+        }
+        request.session.cart[product_name][product_index] = parseInt(qty);
+        response.json({ "status": "Successfully added to cart." });
+        // Tests if items are out of stock
+    } else if (qty > products_data[product_name][product_index].quantity) { 
+        console.log("products data product_name =" + products_data[product_name]);
+        response.json({ "status": "Not enough in stock, not added to cart" });
+        // Tests if there are no quantities ordered
+    } else if (qty == 0) {
+        response.json({ "status": "Invalid quantity, not added to cart. Please order atleast one item." });
+        // Tests for invalid quantities
+    } else {
+        response.json({ "status": "Invalid quantity, please enter a valid number." })
+    }
 });
 /*
 
@@ -106,24 +183,35 @@ app.post('/purchase', function (request, response, next) {
 ╚══════╝░╚════╝░░╚═════╝░╚═╝╚═╝░░╚══╝
 */
 // process login modified from lab 14 ex 3
-app.post("/login", function (request, response) {
-    var login_error = '';
+app.post("/process_login", function (request, response) {
+    // For username and password errors deletes them from the query after they are fixed
+    delete request.query.email_error;
+    delete request.query.password_error;
+    let encrypted_password = encrypt(request.body.password);
     if (typeof user_data_parsed[request.body['email'].toLowerCase()] != 'undefined'){
-        if(user_data_parsed[request.body.email].password == request.body.password){
+        if(user_data_parsed[request.body.email].password == encrypted_password){
             request.query.name = user_data_parsed[request.body['email'].toLowerCase()].name;
             request.query.email = request.body['email'].toLowerCase();
-            let current_user = qs.stringify(request.query);
-            response.redirect('./invoice.html?' + qString + '&' + current_user);
+            redirect_page = 
+            `<script> 
+            alert('Login for ${user_data_parsed[request.body['email'].toLowerCase()].name} Login Successful.'); 
+            location.href = "${'./products_display.html?product_key=Basic&' + qs.stringify(request.query)}"; 
+            </script>`;
+            var current_user = {"name": user_data_parsed[request.body['email'].toLowerCase()].name, "email": request.body['email'].toLowerCase()};
+            response.cookie('current_user',JSON.stringify(current_user), {maxAge: 30 * 60 * 2000});
+            response.send(redirect_page);
             return;
         }
         else{
-            login_error = 'Incorrect Password';
+            request.query.email = request.body['email'].toLowerCase()
+            request.query.password_error = 'Incorrect Password';
         }
     }
     else{
-        login_error = 'Incorrect Email';
+        request.body['email'].toLowerCase()
+        request.query.email_error = 'Incorrect Email';
     } 
-    response.redirect(`./login.html?email=${request.body['email'].toLowerCase()}&errors=` + login_error)
+    response.redirect(`./login.html?` + qs.stringify(request.query));
 });
 /*
 
@@ -134,7 +222,7 @@ app.post("/login", function (request, response) {
 ██║░░██║███████╗╚██████╔╝██║██████╔╝░░░██║░░░███████╗██║░░██║
 ╚═╝░░╚═╝╚══════╝░╚═════╝░╚═╝╚═════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝
 */
-// processes registrations adapted from lab 14 ex 4 and Tiffany Young
+// processes registrations adapted from lab 14 ex 4
 app.post("/register", function(request, response){
     // creates errors message to later display in the innerHTML
     var errors_reg = {};
@@ -200,9 +288,15 @@ app.post("/register", function(request, response){
     // addes name and email to query
     request.query.name = user_data_parsed[request.body['email'].toLowerCase()].name;
     request.query.email = request.body['email'].toLowerCase();
-    let current_user = qs.stringify(request.query);
-    // goes to invoice 
-    response.redirect('./invoice.html?' + qString + '&' + current_user); 
+    redirect_page = 
+    `<script> 
+    alert('Thank You ${user_data_parsed[request.body['email'].toLowerCase()].name} for Registrating.'); 
+    location.href = "${'./products_display.html?product_key=Basic&' + qs.stringify(request.query)}"; 
+    </script>`;
+    var current_user = {"name": user_data_parsed[request.body['email'].toLowerCase()].name, "email": request.body['email'].toLowerCase()};
+    response.cookie('current_user',JSON.stringify(current_user), {maxAge: 30 * 60 * 2000});
+    response.send(redirect_page);
+    return;
  } 
  else {
     console.log('errors in registration')
@@ -220,7 +314,6 @@ app.post("/register", function(request, response){
 ╚══════╝╚═════╝░╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚═════╝░
 */
 // processing editing page that allows the user to change their data
-// adapted from Tiffany Young
 app.post("/editing", function (request, response) { 
     var edited_errors = {};
     edited_errors['email'] = [];
@@ -288,11 +381,97 @@ app.post("/editing", function (request, response) {
         response.redirect('./editing.html?' + qs.stringify(request.body));
     }
  });
+/**
+ 
+██╗░░░░░░█████╗░░██████╗░░█████╗░██╗░░░██╗████████╗
+██║░░░░░██╔══██╗██╔════╝░██╔══██╗██║░░░██║╚══██╔══╝
+██║░░░░░██║░░██║██║░░██╗░██║░░██║██║░░░██║░░░██║░░░
+██║░░░░░██║░░██║██║░░╚██╗██║░░██║██║░░░██║░░░██║░░░
+███████╗╚█████╔╝╚██████╔╝╚█████╔╝╚██████╔╝░░░██║░░░
+╚══════╝░╚════╝░░╚═════╝░░╚════╝░░╚═════╝░░░░╚═╝░░░
+ */
+ // Process logout request
+app.get("/logout", function (request, response) {
+    var current_user = request.cookies["current_user"]; // Sets user information as JavaScript
+    console.log(JSON.stringify(current_user));
+    // Sends message if user successfully logs out
+    if (current_user != undefined) {
+        logout_msg = `<script>alert('You have logged out.'); location.href="./index.html";</script>`;
+        response.clearCookie('current_user'); // Destroys cookie
+        response.send(logout_msg); // Send message if logged out 
+    // If there is no current_user, then displays error message and redirects user to index page
+    } else { 
+        logouterror_msg = `<script>alert("Unable to logout if you are not currently logged in."); location.href="./index.html";</script>`;
+        response.send(logouterror_msg);
+    }
+});
 
+/*
+
+███╗░░░███╗░█████╗░██╗██╗░░░░░███████╗██████╗░
+████╗░████║██╔══██╗██║██║░░░░░██╔════╝██╔══██╗
+██╔████╔██║███████║██║██║░░░░░█████╗░░██████╔╝
+██║╚██╔╝██║██╔══██║██║██║░░░░░██╔══╝░░██╔══██╗
+██║░╚═╝░██║██║░░██║██║███████╗███████╗██║░░██║
+╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝╚══════╝╚══════╝╚═╝░░╚═╝
+*/
+// Process purchase request and emails the invoice
+// Borrowed and modified code from Assignment 3 example code
+app.post('/completePurchase', function (request, response) {
+    var current_user = JSON.parse(request.cookies["current_user"]); // Sets user info to javascript
+    var the_email = current_user["email"]; // Saves the users email as a variable
+    console.log(the_email);
+    var transporter = nodemailer.createTransport({
+        // Sets up a mail server and has it function only on the UH network for security
+        host: "mail.hawaii.edu",
+        port: 25,
+        secure: false,
+        tls: {
+            // Do not fail on invalid certifications
+            rejectUnauthorized: false
+        }
+    });
+
+    var mailOptions = {
+        from: 'sumidase@hawaii.edu',
+        to: the_email,
+        subject: `Thanks, ${current_user.name} for purchasing from Boris' Item Shop.`, // Message in the email if invoice sent
+        html: request.body.invoicehtml
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            status_str = 'There was an error and your invoice could not be emailed.'; // Message if invoice could not be sent
+        } else {
+            status_str = `Your invoice was mailed to ${the_email}`;
+        }
+        response.json({ "status": status_str });
+    });
+    response.clearCookie('current_user'); // Destroys cookie
+    request.session.destroy(); // Deletes the session once the email is sent
+});
+
+/*
+
+██████╗░░█████╗░████████╗██╗███╗░░██╗░██████╗░
+██╔══██╗██╔══██╗╚══██╔══╝██║████╗░██║██╔════╝░
+██████╔╝███████║░░░██║░░░██║██╔██╗██║██║░░██╗░
+██╔══██╗██╔══██║░░░██║░░░██║██║╚████║██║░░╚██╗
+██║░░██║██║░░██║░░░██║░░░██║██║░╚███║╚██████╔╝
+╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚═════╝░
+*/
+app.post('/rate', function (request,response){
+    var product_name = request.body["prod_type"];
+    var product_index = request.body["prod_index"];
+    var rating = request.body["rating"];
+    console.log(rating);
+    products_array[product_name][product_index].rating.push(rating);
+    
+    response.redirect('back');
+});
 // Borrowed and modified from Lab 13 ex 5
 function isNonNegInt(q, returnErrors = false) {
     errors = []; // Assume no errors at first
-    if (q == '') q = 0;
+    if (q == ''  || q == null) q = 0;
     if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
     else {
         if (q < 0) errors.push('Negative value!'); // Check if it is non-negative

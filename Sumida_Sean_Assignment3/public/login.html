@@ -1,6 +1,6 @@
-<!-- Login page, modified and borrowed Lab 14 and template from ww3schools.com reused from last semester -->
-<!-- Author: Sean Sumida & Bryson Yuen -->
-
+<!-- Login page, modified and borrowed Lab 14 and template from ww3schools.com -->
+<!-- Author: Sean Sumida -->
+<script src="./navbar.js" type="text/javascript"></script>
 <!-- Loads user data -->
 <script src="./user_data.json" type="json"></script> 
 <!DOCTYPE html>
@@ -9,7 +9,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./navbar.css">
     <title>Login Page</title>
+    <script type="text/javascript">navbar();</script>
     <style>
     /* Login Page Background */
         html { 
@@ -77,54 +79,69 @@
         }
     </style>
     <script>
-        // Displays an alert
-        window.onload = function () {
-            let params = (new URL(document.location)).searchParams;
-            // If there is an error put up an alert
-            if (params.has("errors")) {
-                alert(params.get("errors"));
-            }
-            // email stays if password is input wrong
-            if (params.has('errors')) {
-                email.value = params.get('email')
-            }
-        }
-        // Function to parse cookies, referenced: https://www.w3schools.com/js/js_cookies.asp and https://howchoo.com/javascript/how-to-manage-cookies-in-javascript
-        function parseCookies(targetCookie) {
-            var fullCookie = document.cookie;
-            var splitCookie = fullCookie.split(";");
-            for (var i = 0; i < splitCookie.length; i++) {
-                var tempCookie = splitCookie[i].split("=");
-                if (tempCookie[0].trim() === targetCookie) {
-                    return tempCookie[1];
-                }
-            }
-            return null;
-        }
+    var products_data =
+    loadJSON('get_products_data', function (response) {
+      // Parses JSON string of products into a JavaScript obj
+      allproducts = JSON.parse(response);
+    });
+    let params = (new URL(document.location)).searchParams; 
+    var this_product_key = params.get("product_key");
+    var products_array = allproducts[this_product_key];
     </script>
 </head>
 <body> 
-        <!--Makes form to login user-->
-        <form name="login" action="login" method="POST">
-            <div class="container"><br>
-                <h1>Boris' Shop</h1>
-        <p>To shop and purchase products please login or register to become a member!</p>
-                <!--Creates a textbox to enter email-->
-                <input type="text" name="email" id="email" size="40" placeholder="Enter Email" required><br>
+    <script>
+        // Creates a form for the user to log in with
+        document.write(`
+        <form action="process_login${location.search}" method="post">`);
+    </script>
+    
+    <div class="container">
+        <h1 style="text-align: center;">Login</h1>
+            <p style="text-align: center;">Please enter your Email and password.</p>
 
-                <!--Creates a textbox to enter password-->
-                <input type="password" name="password" size="40" placeholder="Enter Password" onkeyup="" required><br>
-                <!--Creates a button to login-->
-                <br><input type="submit" value="Login" name="login" class='btn'>
-                </div>
-                
-                 <!--Button for Users who need to create an account-->
-    <input type="button" name="newuser" value="New Users Register Here" class="btn2"
-    onclick="window.location='./register.html' + document.location.search;">
-            </form>
+        <!-- Username input box -->
+        <label for="uname"><b>Email</b></label>
+        <br>
+        <span id="email_msg" style="color: red;"></span>
+        <input type="text" placeholder="Enter Email" name="email" id="email" required><br>
+
+        <!-- Password input box -->
+        <label for="psw"><b>Password</b></label>
+        <br>
+        <span id="psw_msg" style="color: red;"></span>
+        <input type="password" placeholder="Enter Password" name="password" required>
+        <br>
+        <!-- Button that submits login form -->
+        <button class="btn" type="submit">Login</button>
+    </div>
+
+    <div class="container register">
+        <script>
+            // Allows user to go to register page if they need to make an account
+            document.write(` <p>Need an account? <a href="./register.html${location.search}">Register here.</a></p>`);
+        </script>
+    </div>
+
+    </form>
         <script> 
             // Saves query string from products page for the invoice
             login.action += document.location.search; 
          </script>
 </body>
 </html>
+<!-- Errors for login -->
+<script>
+    // If email has an error, alerts user
+    if (params.has('email_error')) {
+        email_msg.innerHTML = params.get('email_error');
+        email.value = params.get('email'); // If password is incorrect, username becomes sticky
+        alert(params.get('email_error')); // If username is invalid, alert user
+    }
+    // If password has an error, alerts user
+    if (params.has('password_error')) {
+        psw_msg.innerHTML = params.get('password_error');
+        email.value = params.get('username'); // Sticky username if there is an error
+        alert(params.get('password_error')); // If password is invalid, alert user
+    }
+</script>

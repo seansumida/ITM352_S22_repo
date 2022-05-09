@@ -1,4 +1,4 @@
-/* Author: Sean Sumida & Bryson Yuen
+/* Author: Sean Sumida
   CSS for nav bar */
 
 /* makes navbar stay in place when scrolling */
@@ -48,7 +48,4 @@ li a:hover {
 .nav_items a:link{
     color:#272D2D;
     text-decoration: none;
-}
-a:hover{
-    background-color: pink;
 }
