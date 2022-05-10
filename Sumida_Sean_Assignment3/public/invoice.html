@@ -31,7 +31,7 @@
 
   // Function to complete purchase from shopping cart page
   function completePurchase() {
-    completePurchasediv.innerHTML = `Thank you for ${current_user["name"]} your purchase`;
+    completePurchasediv.innerHTML = `Thank you, ${current_user["name"]} for your purchase`;
     div = invoiceTableDiv;
     var scripts = div.getElementsByTagName('script');
     var i = scripts.length;
@@ -328,7 +328,9 @@ function rate(prod_index) {
     // If user is logged in, continue and send email confirmation
     if (getCookie("current_user") != false) {
       document.write(`
-            <input type="button" class="button" onclick="completePurchase();" value="Complete Purchase", text-align: center;" ><br>
+      <div id="completePurchasediv" class="completePurchasediv">
+            <input type="button" class="button" onclick="completePurchase();" value="Complete Purchase", text-align: center;" >
+      </div>
             <input type="button" class="btn2" id="edit" value="Change Password" onclick="window.location.href = './editing.html' + document.location.search;">
             `);
       // If user is not logged in, make them login
