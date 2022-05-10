@@ -2,9 +2,10 @@
 <!-- Author: Sean Sumida -->
 <script src="./navbar.js" type="text/javascript"></script>
 <!-- Loads user data -->
-<script src="./user_data.json" type="json"></script> 
+<script src="./user_data.json" type="json"></script>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,16 +14,17 @@
     <title>Login Page</title>
     <script type="text/javascript">navbar();</script>
     <style>
-    /* Login Page Background */
-        html { 
-            background-image: url(./images/background.jpg); 
+        /* Login Page Background */
+        html {
+            background-image: url(./images/background.jpg);
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
             text-align: center;
         }
-        .container{
-           text-align: center;
+
+        .container {
+            text-align: center;
             overflow: auto;
             background-color: whitesmoke;
             margin-left: 30%;
@@ -30,8 +32,9 @@
             padding-bottom: 20px;
             border-radius: 5px;
         }
+
         /* button and input field from w3 schools */
-       .btn{
+        .btn {
             background-color: #3edfdf;
             color: white;
             padding: 14px 20px;
@@ -42,11 +45,13 @@
             cursor: pointer;
             width: 40%;
             border-radius: 5px;
-       }
+        }
+
         .btn:hover {
             opacity: 0.8;
         }
-        .btn2{
+
+        .btn2 {
             background-color: #ff7477;
             color: white;
             padding: 14px 20px;
@@ -57,10 +62,12 @@
             margin-right: 30%;
             width: 40%;
             border-radius: 5px;
-       }
+        }
+
         .btn2:hover {
             opacity: 0.8;
         }
+
         input[type=text] {
             width: 90%;
             padding: 12px 20px;
@@ -69,6 +76,7 @@
             border: none;
             border-bottom: 2px solid black;
         }
+
         input[type=password] {
             width: 90%;
             padding: 12px 20px;
@@ -79,26 +87,27 @@
         }
     </style>
     <script>
-    var products_data =
-    loadJSON('get_products_data', function (response) {
-      // Parses JSON string of products into a JavaScript obj
-      allproducts = JSON.parse(response);
-    });
-    let params = (new URL(document.location)).searchParams; 
-    var this_product_key = params.get("product_key");
-    var products_array = allproducts[this_product_key];
+        var products_data =
+            loadJSON('get_products_data', function (response) {
+                // Parses JSON string of products into a JavaScript obj
+                allproducts = JSON.parse(response);
+            });
+        let params = (new URL(document.location)).searchParams;
+        var this_product_key = params.get("product_key");
+        var products_array = allproducts[this_product_key];
     </script>
 </head>
-<body> 
+
+<body>
     <script>
         // Creates a form for the user to log in with
         document.write(`
         <form action="process_login${location.search}" method="post">`);
     </script>
-    
+
     <div class="container">
         <h1 style="text-align: center;">Login</h1>
-            <p style="text-align: center;">Please enter your Email and password.</p>
+        <p style="text-align: center;">Please enter your Email and password.</p>
 
         <!-- Username input box -->
         <label for="uname"><b>Email</b></label>
@@ -124,11 +133,8 @@
     </div>
 
     </form>
-        <script> 
-            // Saves query string from products page for the invoice
-            login.action += document.location.search; 
-         </script>
 </body>
+
 </html>
 <!-- Errors for login -->
 <script>

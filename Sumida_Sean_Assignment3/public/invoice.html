@@ -3,7 +3,6 @@
 <!-- This page creates and calculates the price for items being purchased in the shop -->
 <!-- Non-logged in users can view this page because it acts like a cart to edit their products these guests will have less funcionality due to them not being logged in -->
 <!-- Load product data -->
-<script src="./product_data.js"></script>
 <script src="./user_data.json" type="json"></script>
 <script src="./navbar.js" type="text/javascript"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -88,8 +87,10 @@ function rate(prod_index) {
         },
         body: JSON.stringify({ "prod_type": product_key, "prod_index": prod_index, "rating": stars })
       });
+      alert("Thank you for your rating");
       const content = await rawResponse.json();
       alert(content["status"]);
+      
     })();
   }
 </script>

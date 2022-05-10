@@ -31,7 +31,7 @@ function navbar() {
         <li><a href="./logout">Logout</a></li><br>
     </ul> 
     `);
-    // Sub nav bar to naviagate through the product items
+    // Sub nav bar to naviagate through the product pages
     for (let product_key in allproducts) {
         document.write(`<a class="nav_items" href='./products_display.html?product_key=${product_key}'>${product_key}</a>`);
         

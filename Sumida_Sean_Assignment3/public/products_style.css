@@ -6,6 +6,7 @@ font-family: 'Roboto', sans-serif;    font-style: normal;
     font-weight: 500;
     /* background */
     background: url("./images/background.jpg") ivory no-repeat center center fixed;
+    color: whitesmoke;
 }
 
 /* Img */
@@ -27,6 +28,7 @@ img {
     background-image: linear-gradient(to bottom right, lightgrey, white);
     width: auto;
     height: auto;
+    color: black;
 }
 
 p {
@@ -52,4 +54,47 @@ body > div {
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
+}
+
+/* Stars from https://stackoverflow.com/questions/53240610/how-to-make-simple-star-rating */
+.star-rating s.active {
+    color: gold;
+}
+.star-rating-rtl s.active {
+    color: gold;
+}
+
+.star-rating s,
+.star-rating-rtl s {
+    color: black;
+    font-size: 50px;
+    cursor: default;
+    text-decoration: none;
+    line-height: 50px;
+}
+.star-rating {
+    padding: 2px;
+}
+.star-rating-rtl {
+    background: #555;
+    display: inline-block;
+    border: 2px solid #444;
+}
+.star-rating-rtl s {
+    color: yellow;
+}
+.star-rating s.rated:before,
+.star-rating s.active:before {
+    content: "\2605";
+}
+.star-rating s:before {
+    content: "\2606";
+}
+.star-rating-rtl s.rated:after,
+.star-rating-rtl s.active:after {
+    content: "\2605";
+}
+
+.star-rating-rtl s:after {
+    content: "\2606";
 }

@@ -1,6 +1,7 @@
 <!-- Written by Sean Sumida used various different code from labs StackOverflow and w3schools -->
 <!-- This page creates the HTML form for the shop -->
 <script src="./navbar.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,45 +13,7 @@
     <link rel="stylesheet" href="./navbar.css">
     <!--  Loads font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <!-- Load product data -->
-<script src="./product_data.js"></script>
-
 <script>
-    window.onload = function () {
-    // Checks if there is quantity data that needs to be checked
-    if (params.has('submitPurchase')) { 
-      // Checks to see if all quantities pass the tests
-      var haserrors = false; // Assumes there are no errors in the beginning 
-      var hasquantities = false; // Assumes no quantities are entered yet
-      for (i = 0; i < products.length; i++) {
-        if (params.has(`quantity${i}`)) {
-          a_qty = params.get(`quantity${i}`); // Receives data from query string
-          product_form[`quantity${i}`].value = a_qty;
-          checkQuantityTextbox(product_form[`quantity${i}`]);
-          // If the quantity does not pass the tests, sets the haserrors variable to true
-          if (isNonNegInt(a_qty) == false) {
-            haserrors = true;
-          }
-          // If the quantity entered is a positive number, sets hasquantities variable to true
-          if (a_qty > 0) {
-            hasquantities = true; 
-          }
-        }
-      }
-      // If there are errors, alert user
-      if (haserrors) {
-        alert("Please enter valid quantities.");
-      }
-      // If no quantities have been entered, alert user
-      else if (hasquantities == false) {
-        alert("Please select a product.");
-      }
-      // If there are no errors, redirects user to login page.
-      else {
-        location.href = "./login.html" + location.search;
-      }
-    }
-  };
     // Code borrowed and modified from Lab 13 ex 5
     // Check to see if the quantity inputted is valid
     function isNonNegInt(q, return_errors = false) {
@@ -122,6 +85,7 @@
 </head>
 <body>
     <header>
+      <h1>Welcome to Boris' Item Shop</h1>
         <script>
           // If the user has a cookie called "current_user", welcomes them by name
           if (getCookie('current_user') != false) {
@@ -142,7 +106,7 @@
             // write until products are undefined
             // setup for
             for(i = 0; i < products_array.length; i++) {
-                var rating = products_array[i].rating.reduce((a, b) => a + b, 0) / products_array[i].rating.length;
+                var rating = (products_array[i].rating.reduce((a, b) => a + b, 0) / products_array[i].rating.length).toFixed(0);
                 document.write(`
                     <section class="item_display"><br><img src="${products_array[i].image}" align="left"></br></section>
                     <section class="item_text">
@@ -151,11 +115,29 @@
                             <br>${products_array[i].desc}</br>
                             <br>In Stock: ${products_array[i].quantity}</br>
                             <br><b>&#165;${products_array[i].price}</b></br>
-                            <br>Rating: ${rating} out of 5</br>
-                            <br>
+                            <br><div class="star-rating">`)
+                              if (rating == 5){
+                                document.write(`<s class="active"></s><s class="active"></s><s class="active"></s><s class="active"></s><s class="active"></s>`)
+                              }
+                              if (rating == 4){
+                                document.write(`<s class="active"></s><s class="active"></s><s class="active"></s><s class="active"></s><s></s>`)
+                              }
+                              if (rating == 3){
+                                document.write(`<s class="active"></s><s class="active"></s><s class="active"></s><s></s><s></s>`)
+                              }
+                              if (rating == 2){
+                                document.write(`<s class="active"></s><s class="active"></s><s"></s><s></s><s></s>`)
+                              }
+                              if (rating == 1){
+                                document.write(`<s class="active"></s><s></s><s></s><s></s><s></s>`)
+                              }
+                            document.write(`
+                            ${products_array[i].rating.length} Ratings
+                            </div></br>
+                             <br>
                                 <label id="quantity${i}_label">Please type quantity desired: </label>
                                 <input type="text" placeholder="Quantity Available: ${products_array[i].quantity}" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
-                                <input type="button" class="button" onclick="addtocart(${i}); document.location.reload(true);" value="Add to cart" name="submitPurchase" class="add_cart">
+                                <input type="button" class="button" onclick="addtocart(${i}); document.location.reload(true);" value="Add to cart">
                             </br>
                         </p>
                     </section>
@@ -171,10 +153,6 @@
     <script>
     window.onload = function () {
         let params = (new URL(document.location)).searchParams;
-        // Makes an alert with error message
-        if (params.has("errorMessage")) {
-            alert(params.get("errorMessage"));
-        }
         // Code borrowed and modified from Lab 12
         // Makes textboxes sticky for invalid data
         for (i = 0; i < products_array.length; i++) {

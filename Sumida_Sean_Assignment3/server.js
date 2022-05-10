@@ -1,4 +1,4 @@
-// author Sean Sumida used code from various differnt labs, Assignment code examples, StockOverflow, and w3schools.
+// author Sean Sumida used code from various differnt labs, Assignment code examples, StockOverflow, and w3schools will reference when code is used.
 // This code initializes the server for the webpage aswell as checks valid inputs for the HTMl form
 
 var express = require('express');
@@ -13,16 +13,16 @@ var myParser = require("body-parser");
 app.use(myParser.urlencoded({ extended: true }));
 app.use(myParser.json());
 
-// Setup session
-var session = require('express-session'); // Require express sessions
-app.use(session({ secret: "MySecretKey" })); // Lab 15, initializes sessions
+// Setup session from cookies and sessions lab
+var session = require('express-session'); 
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true})); 
 
-// Setup cookies
-var cookieParser = require('cookie-parser'); // Require cookie-parser
-app.use(cookieParser()); // Calls cookies
+// Setup cookies from cookies and sessions lab
+var cookieParser = require('cookie-parser'); 
+app.use(cookieParser()); 
 
 // Setup nodemailer
-const nodemailer = require("nodemailer"); // Require nodemailer module
+const nodemailer = require("nodemailer");
 
 // lab 14 ex2
 if (fs.existsSync(user_data)) {
@@ -43,7 +43,7 @@ app.all('*', function (request, response, next) {
    next();
 });
 
-// Retrieves product data from the json
+// Makes products_array accessable for other pages
 app.post("/get_products_data", function (request, response, next) {
     response.json(products_array);
 });
@@ -94,22 +94,20 @@ function encrypt(password) {
 ╚█████╔╝██║░░██║██║░░██║░░░██║░░░
 ░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
 */
-
+// Gets contents of cart
 app.post('/get_cart', function (request, response) {
     response.json(request.session.cart);
 });
-
+// Gets amount of items in cart
 app.post('/cart_qty', function (request, response) {
     var total = 0; // 
     for (pkey in request.session.cart) {
-        total += request.session.cart[pkey].reduce((a, b) => a + b, 0);
+        total += Number(request.session.cart[pkey].reduce((a, b) => a + b, 0));
     }
     response.json({ qty: total });
 });
-
-// Updates shopping cart session with new quantity info
+// Updates shopping cart with newly udated quantities
 app.post("/update_cart", function (request, response) {
-    // Replaces cart in session with post and checks if updated quantities are valid
     let haserrors = false;
     for (let product_name in request.body.quantities) {
         for (let i in request.body.quantities[product_name]) {
@@ -118,17 +116,16 @@ app.post("/update_cart", function (request, response) {
             haserrors = !isNonNegInt(Number(qty)) || haserrors;
         };
     };
-    // Send alert if there are errors
+    // Send an alert if theres errors
     if (haserrors == true) { 
         msg = "Invalid quantities, cart has not updated.";
-    // Update cart if there are no errors
+    // Updates cart
     } else { 
-        msg = "Cart updated successfully. ";
+        msg = "Cart successfully updated. ";
         request.session.cart = request.body.quantities;
     }
-    // If items failed to add to the cart, finds the page the user came from
     const ref_URL = new URL(request.get('Referrer')); 
-    ref_URL.searchParams.set("msg", msg); // Gets new querystring and adds to querystring
+    ref_URL.searchParams.set("msg", msg);
     response.redirect(ref_URL.toString()); // Redirect user back to page they were on
 });
 
@@ -142,7 +139,6 @@ app.post("/update_cart", function (request, response) {
 ╚═╝░░░░░░╚═════╝░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝
 */
 // Process purchase request
-// Non logged in users can view this page because it acts like a cart to edit their products these guests will have less funcionality due to them not being logged in
 app.post('/purchase', function (request, response, next) {
     var qty = request.body["prod_qty"];
     var product_name = request.body["prod_type"];
@@ -152,23 +148,23 @@ app.post('/purchase', function (request, response, next) {
         "type": product_name, 
         "index": product_index 
     };
-    response.cookie('cart_info', JSON.stringify(cart_info), { maxAge: 30 * 60 * 2000 });
-    // If the entered quantity passes the validation tests, add to cart. If the tests are not passed decline
+    response.cookie('cart_info', JSON.stringify(cart_info), { maxAge: 30 * 60 * 2000 }); // sets age of cookie to 1 hour before expiration
+    // Data validation
     if (isNonNegInt(qty) && qty != 0 && qty <= products_data[product_name][product_index].quantity) {
-        // Adds quantity data to the cart session
         if (typeof request.session.cart[product_name] == "undefined") {
             request.session.cart[product_name] = [];
         }
+        // Adds item to cart
         request.session.cart[product_name][product_index] = parseInt(qty);
         response.json({ "status": "Successfully added to cart." });
-        // Tests if items are out of stock
+        // Checks if there are enough in stock
     } else if (qty > products_data[product_name][product_index].quantity) { 
         console.log("products data product_name =" + products_data[product_name]);
-        response.json({ "status": "Not enough in stock, not added to cart" });
-        // Tests if there are no quantities ordered
+        response.json({ "status": "Not enough in stock, cannot add to cart" });
+        // Checks if user input anything
     } else if (qty == 0) {
-        response.json({ "status": "Invalid quantity, not added to cart. Please order atleast one item." });
-        // Tests for invalid quantities
+        response.json({ "status": "Invalid quantity, cannot add to cart. Please order an item." });
+        // Checks if user put valid data
     } else {
         response.json({ "status": "Invalid quantity, please enter a valid number." })
     }
@@ -184,11 +180,13 @@ app.post('/purchase', function (request, response, next) {
 */
 // process login modified from lab 14 ex 3
 app.post("/process_login", function (request, response) {
-    // For username and password errors deletes them from the query after they are fixed
+    // deletes errors for query when the problem is resolved
     delete request.query.email_error;
     delete request.query.password_error;
     let encrypted_password = encrypt(request.body.password);
+    // Checking if user is registered
     if (typeof user_data_parsed[request.body['email'].toLowerCase()] != 'undefined'){
+        // Checks if registered user's password is correct
         if(user_data_parsed[request.body.email].password == encrypted_password){
             request.query.name = user_data_parsed[request.body['email'].toLowerCase()].name;
             request.query.email = request.body['email'].toLowerCase();
@@ -198,16 +196,18 @@ app.post("/process_login", function (request, response) {
             location.href = "${'./products_display.html?product_key=Basic&' + qs.stringify(request.query)}"; 
             </script>`;
             var current_user = {"name": user_data_parsed[request.body['email'].toLowerCase()].name, "email": request.body['email'].toLowerCase()};
-            response.cookie('current_user',JSON.stringify(current_user), {maxAge: 30 * 60 * 2000});
+            response.cookie('current_user',JSON.stringify(current_user), {maxAge: 30 * 60 * 2000}); // sets age of cookie to 1 hour before expiration
             response.send(redirect_page);
             return;
         }
         else{
+            // Sends alert if password is wrong
             request.query.email = request.body['email'].toLowerCase()
             request.query.password_error = 'Incorrect Password';
         }
     }
     else{
+        // Sends alert if Email is wrong
         request.body['email'].toLowerCase()
         request.query.email_error = 'Incorrect Email';
     } 
@@ -392,16 +392,16 @@ app.post("/editing", function (request, response) {
  */
  // Process logout request
 app.get("/logout", function (request, response) {
-    var current_user = request.cookies["current_user"]; // Sets user information as JavaScript
+    var current_user = request.cookies["current_user"]; 
     console.log(JSON.stringify(current_user));
-    // Sends message if user successfully logs out
+    // Sends alert if user successfully logs out
     if (current_user != undefined) {
-        logout_msg = `<script>alert('You have logged out.'); location.href="./index.html";</script>`;
+        logout_msg = `<script>alert('Successfully logged out.'); location.href="./index.html";</script>`;
         response.clearCookie('current_user'); // Destroys cookie
-        response.send(logout_msg); // Send message if logged out 
-    // If there is no current_user, then displays error message and redirects user to index page
+        response.send(logout_msg); 
+    // If there is no user logged in, sends an error alert and redirects user to index page
     } else { 
-        logouterror_msg = `<script>alert("Unable to logout if you are not currently logged in."); location.href="./index.html";</script>`;
+        logouterror_msg = `<script>alert("Unable to logout, No user currently logged in."); location.href="./index.html";</script>`;
         response.send(logouterror_msg);
     }
 });
@@ -435,7 +435,7 @@ app.post('/completePurchase', function (request, response) {
     var mailOptions = {
         from: 'sumidase@hawaii.edu',
         to: the_email,
-        subject: `Thanks, ${current_user.name} for purchasing from Boris' Item Shop.`, // Message in the email if invoice sent
+        subject: `Thank You, ${current_user.name} for purchasing from Boris' Item Shop.`, // Message in the email if invoice sent
         html: request.body.invoicehtml
     };
     transporter.sendMail(mailOptions, function (error, info) {
@@ -459,14 +459,18 @@ app.post('/completePurchase', function (request, response) {
 ██║░░██║██║░░██║░░░██║░░░██║██║░╚███║╚██████╔╝
 ╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚═════╝░
 */
+// Processes the rating system retrieving the users rating and pushing it to the array of products
+// inspired by Prof Port's rating system he posted in the ITMVM
 app.post('/rate', function (request,response){
     var product_name = request.body["prod_type"];
     var product_index = request.body["prod_index"];
     var rating = request.body["rating"];
-    console.log(rating);
+    // pushes users rating to products_array
     products_array[product_name][product_index].rating.push(rating);
     
-    response.redirect('back');
+    
+    const ref_URL = new URL(request.get('Referrer')); 
+    response.redirect(ref_URL.toString()); // Redirect user back to page they were on
 });
 // Borrowed and modified from Lab 13 ex 5
 function isNonNegInt(q, returnErrors = false) {
