@@ -137,7 +137,7 @@
                              <br>
                                 <label id="quantity${i}_label">Please type quantity desired: </label>
                                 <input type="text" placeholder="Quantity Available: ${products_array[i].quantity}" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
-                                <input type="button" class="button" onclick="addtocart(${i}); document.location.reload(true);" value="Add to cart">
+                                <input type="button" class="button" onclick="addtocart(${i}); window.location.reload(true);" value="Add to cart">
                             </br>
                         </p>
                     </section>
