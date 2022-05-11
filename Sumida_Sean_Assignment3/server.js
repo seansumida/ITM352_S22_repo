@@ -101,8 +101,8 @@ app.post('/get_cart', function (request, response) {
 // Gets amount of items in cart
 app.post('/cart_qty', function (request, response) {
     var total = 0; // 
-    for (pkey in request.session.cart) {
-        total += Number(request.session.cart[pkey].reduce((a, b) => a + b, 0));
+    for (product_name in request.session.cart) {
+        total += Number(request.session.cart[product_name].map(Number).reduce((a, b) => a + b, 0));
     }
     response.json({ qty: total });
 });

@@ -218,7 +218,7 @@
                         <td align="center" width="18%"><img src="./${products_array[i].image}" style="width:120px;height:auto;"></td>
                         <td align="center" width="15%">${products_array[i].name}</td>
                         <td align="center" width="15%">${product_key}</td>
-                        <td align="center" width="11%"><input type="text" name="quantities[${product_key}][${i}]" value="${cart_data[product_key][i]}" min="0"></td>
+                        <td align="center" width="11%"><input type="number" name="quantities[${product_key}][${i}]" value="${cart_data[product_key][i]}" min="0"></td>
                         <td align="center" width="12%">&#165;${products_array[i].price}</td>
                         <td align="center" width="12%">&#165;${extended_price.toFixed(0)}</td>
                         <td align="center" width="22%">`)
