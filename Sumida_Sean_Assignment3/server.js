@@ -274,7 +274,7 @@ app.post("/register", function(request, response){
     for (errors in errors_reg) {
         amount_errors += errors_reg[errors].length;
     }
-// from assignment 2 code examples and adapted from Tiffany Young
+// from assignment 2 code examples
 // saves the new registred users data to user_data json file
  if (amount_errors == 0) {
     console.log('no errors in registration')
